@@ -1,0 +1,87 @@
+<section class="content-header">
+<h1>Manage Items</h1>
+</section>
+<br>
+<section class="content">
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <form #frmItem="ngForm" (ngSubmit)="saveItems()">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Item code</label>
+          <input #txtcode name="Icode" required="true" [(ngModel)]="currentItem.code" pattern="^I\d{3}$" type="text"
+                 class="form-control"
+                 id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter code">
+
+        </div>
+        <div class="form-group">
+          <label for="exampleInputName">Item description</label>
+          <input name="Idess" required="true" [(ngModel)]="currentItem.description" minlength="4" type="text"
+                 class="form-control" id="exampleInputName"
+                 placeholder="description">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputqut">Item qut</label>
+          <input name="Iqut" required="true" [(ngModel)]="currentItem.qtyOnHand" minlength="1" type="text"
+                 class="form-control"
+                 id="exampleInputqut" placeholder="qut">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputunitP">Item unitPrice</label>
+          <input name="IuniP" required="true" [(ngModel)]="currentItem.unitPrice" minlength="1" type="text"
+                 class="form-control"
+                 id="exampleInputunitP" placeholder="unit price">
+        </div>
+
+        <button  type="submit" class="btn btn-primary">{{buttonText}}</button>
+        <button style="margin-left: 10px" type="reset" (click)="clearForm()" class="btn btn-warning">Clear</button>
+      </form>
+    </div>
+    <br>
+    <br>
+    <div class="col-sm">
+      <table class="table table-bordered table-green table-hover">
+        <thead>
+        <th>Code</th>
+        <th>Description</th>
+        <th>qut</th>
+        <th>unit Price</th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingStatus">
+          <td style="text-align: center !important;" colspan="4">
+            <div class="lds-facebook"><div></div><div></div><div></div></div>
+          </td>
+        </tr>
+        <tr (click)="onClickRow(item)" *ngFor="let item of items" [class.selected]="currentItem===item">
+          <td>{{item.code}}</td>
+          <td>{{item.description | uppercase }}</td>
+          <td>{{item.qtyOnHand}}</td>
+          <td>{{item.unitPrice}}</td>
+          <td style="text-align: center; font-size: 22px;" (mouseleave)="hoverItem=null"
+              (mouseenter)="hoverItem=item">
+            <i class="fas" [class.fa-trash]="hoverItem!==item"
+               [class.fa-trash-restore-alt]="hoverItem===item" (click)="deleteItems(item)"></i>
+          </td>
+
+        </tr>
+
+        </tbody>
+        <tfoot *ngIf="showTableFoot">
+        <tr>
+          <td colspan="3">No customer Loard</td>
+        </tr>
+        </tfoot>
+      </table>
+      <div id="pagination-wrapper">
+        <ngb-pagination
+          (pageChange)="onPageChange($event)"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [collectionSize]="itemsCount"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

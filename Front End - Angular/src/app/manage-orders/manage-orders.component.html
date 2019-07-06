@@ -1,0 +1,112 @@
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <section class="content-header">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Place Order</h1>
+    </div>
+  </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label > Order ID :  <span>{{OID}}</span> </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label>Order Date: <span>{{date}}</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col-12 col-lg-2">
+          <div  class="form-group">
+            <label>Customer ID</label>
+            <select id="cmbCustomerId" class="form-control" [(ngModel)]="selectedCustomer">
+              <option *ngFor="let customer of customers" [ngValue]="customer">{{customer.id}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-10">
+          <label>Customer Name</label>
+          <label #name id="lblCustomerName" class="form-control">{{selectedCustomer.name}}</label>
+        </div>
+      </div>
+      <div class="row border-bottom" style="margin-top: 10px;">
+        <div class="col-12 col-lg-2">
+          <div class="form-group">
+            <label>Item Code</label>
+            <select #cmdItem id="cmbItemCode" class="form-control" [(ngModel)]="selectedItem">
+              <option *ngFor="let item of items" [ngValue]="item">{{item.code}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <label>Description</label>
+          <label id="lblDescription" class="form-control">{{selectedItem.description}}</label>
+        </div>
+        <div class="col-12 col-lg-2 text-center">
+          <label>Unit Price</label>
+          <label id="lblUnitPrice" class="form-control">{{selectedItem.unitPrice}}</label>
+        </div>
+        <div class="col-12 col-lg-2 text-center">
+          <label>Qty. on Hand</label>
+          <label id="lblQtyOnHand" class="form-control">{{selectedItem.qtyOnHand}}</label>
+        </div>
+        <div class="col-12 col-lg-2 text-center">
+          <label>Qty. </label>
+          <input [(ngModel)]="qty" name="itemQut" (keyup)="getkey($event)"  id="txtQty" type="number" class="form-control">
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-12">
+          <table id="tblOrderDetails" class="table table-bordered table-hover">
+            <colgroup>
+              <col style="width:100px;">
+              <col>
+              <col style="width:100px;">
+              <col style="width:200px;">
+              <col style="width:200px;">
+              <col style="width:100px;">
+            </colgroup>
+            <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Qty.</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+              <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let itemD of itemDetais">
+              <td>{{itemD.code}}</td>
+              <td>{{itemD.description}}</td>
+              <td>{{itemD.qut}}</td>
+              <td>{{itemD.Uprice}}</td>
+              <td>{{itemD.price}}</td>
+              <td style="text-align: center; font-size: 22px;" (mouseleave)="hoverCustomer=null"
+                  (mouseenter)="hoverCustomer=item">
+                <i class="fas" [class.fa-trash]="hoverCustomer!==item"
+                   [class.fa-trash-restore-alt]="hoverCustomer===item" (click)="deleteItems(itemD)"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 10px;margin-bottom: 20px;">
+        <div class="col-12 col-lg-6">
+          <h2>Total: <span id="spnTotal">{{total}}</span></h2>
+        </div>
+        <div class="col-12 col-lg-6 text-right">
+          <button id="placeOR" class="btn btn-primary" (click)="plaseOrde()">Place Order</button>
+        </div>
+      </div>
+    </section>
+  </main>
+

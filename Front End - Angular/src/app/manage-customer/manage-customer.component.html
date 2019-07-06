@@ -1,0 +1,76 @@
+<section class="content-header">
+  <h1>Manage Customer</h1>
+<br>
+</section>
+<section class="content">
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <form #frmCustomer="ngForm" (ngSubmit)="saveCustomer()">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Customer ID</label>
+          <input #txtId name="Cid" [(ngModel)]="currentCustomer.id" pattern="^C\d{3}$" required="true" type="text" class="form-control"
+                 id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter ID">
+
+        </div>
+        <div class="form-group">
+          <label for="exampleInputName">Customer Name</label>
+          <input name="Cname" [(ngModel)]="currentCustomer.name" minlength="4" required="true" type="text" class="form-control" id="exampleInputName"
+                 placeholder="Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputAddress">Customer Address</label>
+          <input name="Cadd" [(ngModel)]="currentCustomer.address" minlength="4" required="true" type="text" class="form-control"
+                 id="exampleInputAddress" placeholder="Address">
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{buttonText}}</button>
+        <button style="margin-left: 10px" type="reset" (click)="clearForm()" class="btn btn-warning">Clear</button>
+      </form>
+    </div>
+    <br>
+    <br>
+    <div class="col-sm">
+      <table class="table table-bordered table-green table-hover">
+        <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingStatus">
+          <td style="text-align: center !important;" colspan="4">
+            <div class="lds-facebook"><div></div><div></div><div></div></div>
+          </td>
+        </tr>
+        <tr (click)="onClickRow(customer)" *ngFor="let customer of customers" [class.selected]="currentCustomer===customer">
+          <td>{{customer.id}}</td>
+          <td>{{customer.name}}</td>
+          <td>{{customer.address}}</td>
+          <td style="text-align: center; font-size: 22px;" (mouseleave)="hoverCustomer=null"
+              (mouseenter)="hoverCustomer=customer">
+            <i class="fas" [class.fa-trash]="hoverCustomer!==customer"
+               [class.fa-trash-restore-alt]="hoverCustomer===customer" (click)="deleteCustomer(customer)"></i>
+          </td>
+
+        </tr>
+
+        </tbody>
+        <tfoot *ngIf="showTableFoot">
+        <tr>
+          <td colspan="3">No customer Loard</td>
+        </tr>
+        </tfoot>
+      </table>
+      <div id="pagination-wrapper">
+        <ngb-pagination
+          (pageChange)="onPageChange($event)"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [collectionSize]="ItemCount"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
